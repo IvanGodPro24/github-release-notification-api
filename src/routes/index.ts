@@ -3,6 +3,6 @@ import subscriptionRoutes from './subscription.routes.js';
 
 const router = Router();
 
-router.use('/subscribe', subscriptionRoutes);
+router.use('/', subscriptionRoutes);
 
 export default router;

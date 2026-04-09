@@ -1,12 +1,28 @@
 import { Router, json } from 'express';
-import { subscribe } from '../controllers/subscription.controller.js';
+import {
+  confirm,
+  getSubscriptions,
+  subscribe,
+  unsubscribe,
+} from '../controllers/subscription.controller.js';
 import { validate } from '../middleware/validate.js';
 import { subscribeSchema } from '../validation/subscription.schema.js';
+import { getSubscriptionsSchema } from '../validation/subscription.schema.js';
 
 const router = Router();
 
 const jsonParser = json();
 
-router.post('/', jsonParser, validate(subscribeSchema), subscribe);
+router.post('/subscribe', jsonParser, validate(subscribeSchema), subscribe);
+
+router.get('/confirm/:token', confirm);
+
+router.get('/unsubscribe/:token', unsubscribe);
+
+router.get(
+  '/subscriptions',
+  validate(getSubscriptionsSchema),
+  getSubscriptions,
+);
 
 export default router;

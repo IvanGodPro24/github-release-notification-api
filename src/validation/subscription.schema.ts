@@ -12,4 +12,14 @@ export const subscribeSchema = z.object({
   }),
 });
 
+export const getSubscriptionsSchema = z.object({
+  query: z.object({
+    email: z.string().email('Invalid email format'),
+  }),
+});
+
 export type SubscribeInput = z.infer<typeof subscribeSchema>['body'];
+
+export type GetSubscriptionsInput = z.infer<
+  typeof getSubscriptionsSchema
+>['query'];
