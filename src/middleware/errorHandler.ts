@@ -3,9 +3,9 @@ import { HttpError } from 'http-errors';
 
 export const errorHandler = (
   err: Error,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ): void => {
   if (err instanceof HttpError) {
     res.status(err.status).json({
