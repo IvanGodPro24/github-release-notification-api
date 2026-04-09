@@ -1,12 +1,12 @@
-import "dotenv/config";
-import { defineConfig } from "prisma/config";
+import { defineConfig } from 'prisma/config';
+import { getEnvVar } from './src/utils/getEnvVar.js';
 
 export default defineConfig({
-  schema: "prisma/schema.prisma",
+  schema: 'prisma/schema.prisma',
   migrations: {
-    path: "prisma/migrations",
+    path: 'prisma/migrations',
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: getEnvVar('DATABASE_URL'),
   },
 });

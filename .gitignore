@@ -3,3 +3,6 @@ node_modules
 
 /generated/prisma
 /dist
+.vscode
+.DS_Store
+.idea

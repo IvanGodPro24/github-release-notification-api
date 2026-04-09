@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "dev": "node --watch --experimental-strip-types src/index.ts",
+    "dev": "tsx watch src/index.ts",
     "migrate": "prisma migrate deploy",
     "migrate:dev": "prisma migrate dev",
     "generate": "prisma generate",
@@ -30,6 +30,7 @@
     "axios": "^1.14.0",
     "dotenv": "^17.4.1",
     "express": "^5.2.1",
+    "http-errors": "^2.0.1",
     "nodemailer": "^8.0.5",
     "pg": "^8.20.0",
     "uuid": "^13.0.0"
@@ -40,6 +41,7 @@
     "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
     "prisma": "^7.7.0",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.2"
   }
 }
