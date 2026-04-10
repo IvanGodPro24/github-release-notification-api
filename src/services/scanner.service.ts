@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import { prisma } from '../db/client.js';
 import { getLatestRelease } from './github.service.js';
+import { sendNewReleaseEmail } from './subscription-email.service.js';
 
 const scanRepositories = async () => {
   try {
@@ -39,6 +40,22 @@ const scanRepositories = async () => {
             where: { id: repo.id },
             data: { lastSeenTag: latestTag },
           });
+
+          const subscriptions = await prisma.subscription.findMany({
+            where: {
+              repositoryId: repo.id,
+              status: 'ACTIVE',
+            },
+          });
+
+          for (const sub of subscriptions) {
+            await sendNewReleaseEmail(
+              sub.email,
+              repo.name,
+              latestTag,
+              sub.unsubscribeToken,
+            );
+          }
         }
       } catch (error: any) {
         console.error(`[Scanner] Error checking ${repo.name}:`, error.message);

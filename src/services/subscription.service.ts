@@ -1,5 +1,6 @@
 import createHttpError from 'http-errors';
 import { prisma } from '../db/client.js';
+import { sendConfirmEmail } from './subscription-email.service.js';
 
 export const createSubscription = async (email: string, repo: string) => {
   let repository = await prisma.repository.findUnique({
@@ -32,6 +33,12 @@ export const createSubscription = async (email: string, repo: string) => {
       repositoryId: repository.id,
     },
   });
+
+  await sendConfirmEmail(
+    subscription.email,
+    repository.name,
+    subscription.confirmToken,
+  );
 
   return subscription;
 };
