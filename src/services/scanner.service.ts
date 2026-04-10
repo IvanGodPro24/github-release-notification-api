@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import { prisma } from '../db/client.js';
 import { getLatestRelease } from './github.service.js';
-import { sendNewReleaseEmail } from './subscription-email.service.js';
+import { emailQueue } from '../queue/email.queue.js';
 
 const scanRepositories = async () => {
   try {
@@ -48,14 +48,24 @@ const scanRepositories = async () => {
             },
           });
 
-          for (const sub of subscriptions) {
-            await sendNewReleaseEmail(
-              sub.email,
-              repo.name,
-              latestTag,
-              sub.unsubscribeToken,
-            );
-          }
+          await emailQueue.addBulk(
+            subscriptions.map((sub) => ({
+              name: 'send-email',
+              data: {
+                email: sub.email,
+                repoName: repo.name,
+                tag: latestTag,
+                unsubscribeToken: sub.unsubscribeToken,
+              },
+              opts: {
+                attempts: 3,
+                backoff: {
+                  type: 'exponential',
+                  delay: 5000,
+                },
+              },
+            })),
+          );
         }
       } catch (error: any) {
         console.error(`[Scanner] Error checking ${repo.name}:`, error.message);

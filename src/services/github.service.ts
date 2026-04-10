@@ -1,6 +1,7 @@
 import axios from 'axios';
 import createHttpError from 'http-errors';
 import { getEnvVar } from '../utils/getEnvVar.js';
+import { getCache, setCache } from './cache.service.js';
 
 const githubToken = getEnvVar('GITHUB_TOKEN', '');
 
@@ -41,16 +42,26 @@ export const getLatestRelease = async (
   owner: string,
   repo: string,
 ): Promise<string | null> => {
+  const cacheKey = `repo:${owner}/${repo}:latest`;
+
+  const cached = await getCache<string | null>(cacheKey);
+  if (cached !== null) return cached;
+
   try {
     const response = await githubApi.get(
       `/repos/${owner}/${repo}/releases/latest`,
     );
 
-    return response.data.tag_name || null;
+    const tag = response.data.tag_name || null;
+
+    await setCache(cacheKey, tag);
+
+    return tag;
   } catch (error: any) {
     if (axios.isAxiosError(error) && error.response) {
       switch (error.response.status) {
         case 404:
+          await setCache(cacheKey, null);
           return null;
         case 403:
         case 429:
