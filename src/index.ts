@@ -5,12 +5,14 @@ import { errorHandler } from './middleware/errorHandler.js';
 import rootRouter from './routes/index.js';
 import { startScanner } from './services/scanner.service.js';
 import { bullBoardRouter } from './queue/dashboard.js';
+import { swaggerDocs } from './middleware/swaggerDocs.js';
 
 export const app = express();
 const PORT = getEnvVar('PORT', '3000');
 
 app.use('/api', rootRouter);
 app.use('/admin/queues', bullBoardRouter);
+app.use('/api-docs', swaggerDocs());
 
 app.use(notFoundHandler);
 app.use(errorHandler);
