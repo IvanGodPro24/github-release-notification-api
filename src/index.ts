@@ -6,7 +6,7 @@ import rootRouter from './routes/index.js';
 import { startScanner } from './services/scanner.service.js';
 import { bullBoardRouter } from './queue/dashboard.js';
 
-const app = express();
+export const app = express();
 const PORT = getEnvVar('PORT', '3000');
 
 app.use('/api', rootRouter);
@@ -15,8 +15,10 @@ app.use('/admin/queues', bullBoardRouter);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-startScanner();
+if (process.env.NODE_ENV !== 'test') {
+  startScanner();
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
