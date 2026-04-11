@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 import request from 'supertest';
 import createHttpError from 'http-errors';
 
-const mockCheckRepoExists = jest.fn<(...args: any[]) => Promise<any>>();
+const mockCheckRepoExists = jest.fn<(...args: unknown[]) => Promise<unknown>>();
 
 const mockPrisma = {
   repository: { findUnique: jest.fn(), create: jest.fn() },
@@ -25,7 +25,7 @@ jest.unstable_mockModule('../services/scanner.service.js', () => ({
   startScanner: jest.fn(),
 }));
 jest.unstable_mockModule('../queue/dashboard.js', () => ({
-  bullBoardRouter: (req: any, res: any, next: any) => next(),
+  bullBoardRouter: (req: unknown, res: unknown, next: () => void) => next(),
 }));
 jest.unstable_mockModule('../utils/getEnvVar.js', () => ({
   getEnvVar: (key: string, fallback: string = '') => {

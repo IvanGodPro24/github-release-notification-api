@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  ci:
     runs-on: ubuntu-latest
 
     services:
@@ -57,6 +57,12 @@ jobs:
 
       - name: Run migrations
         run: npx prisma migrate deploy
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run Build
+        run: npm run build
 
       - name: Run tests
         run: npm test

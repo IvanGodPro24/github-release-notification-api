@@ -67,8 +67,10 @@ const scanRepositories = async () => {
             })),
           );
         }
-      } catch (error: any) {
-        console.error(`[Scanner] Error checking ${repo.name}:`, error.message);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : 'Unknown error';
+        console.error(`[Scanner] Error checking ${repo.name}:`, message);
       }
     }
   } catch (globalError) {

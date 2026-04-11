@@ -14,6 +14,6 @@ export const getCache = async <T>(key: string): Promise<T | null> => {
   return JSON.parse(data);
 };
 
-export const setCache = async (key: string, value: any) => {
+export const setCache = async (key: string, value: unknown) => {
   await redis.set(key, JSON.stringify(value), 'EX', TTL);
 };

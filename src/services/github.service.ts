@@ -57,7 +57,7 @@ export const getLatestRelease = async (
     await setCache(cacheKey, tag);
 
     return tag;
-  } catch (error: any) {
+  } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       switch (error.response.status) {
         case 404:

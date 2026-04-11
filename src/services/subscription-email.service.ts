@@ -6,7 +6,7 @@ import { sendEmail } from './email.service.js';
 
 const compileTemplate = async (
   templateName: string,
-  data: Record<string, any>,
+  data: Record<string, unknown>,
 ) => {
   const templatePath = path.join(
     process.cwd(),

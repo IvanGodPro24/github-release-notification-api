@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 
-const mockGet = jest.fn<(...args: any[]) => Promise<any>>();
+const mockGet = jest.fn<(...args: unknown[]) => Promise<unknown>>();
 
 jest.unstable_mockModule('axios', () => ({
   default: {
