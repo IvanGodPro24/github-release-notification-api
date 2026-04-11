@@ -9,6 +9,7 @@
     "start": "node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
     "worker": "tsx src/queue/email.worker.ts",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "migrate": "prisma migrate deploy",
     "migrate:dev": "prisma migrate dev",
     "generate": "prisma generate",
@@ -45,11 +46,14 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.5.2",
     "@types/node-cron": "^3.0.11",
     "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
+    "jest": "^30.3.0",
     "prisma": "^7.7.0",
+    "ts-jest": "^29.4.9",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
   }
